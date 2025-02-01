@@ -42,6 +42,9 @@ const userRouter=Router(); //Router is a function
 // we use uerRouter in place of app
 
 const {userModel}=require("../db");
+const jwt=require("jsonwebtoken")
+const JWT_USER_TOKEN="_id_token_for_user_signin";
+
 
 
 userRouter.post("/signup",async (req,res)=>{
@@ -69,10 +72,42 @@ userRouter.post("/signup",async (req,res)=>{
 })
 
 
-userRouter.post("/signin",(req,res)=>{
-    res.json({
-        message:"signin endpoints"
-    })      
+userRouter.post("/signin",async (req,res)=>{
+  try{
+      //user will give the email and password to sign in
+      const {email,password}=req.body;
+
+      // find the given email and password in DB
+      //dont user find() becaise return the empty array if not found 
+      const user=await userModel.findOne({
+          email:email,
+          password:password
+      })
+  
+      //if user exist
+      if(user){
+          //create the userToken by using the _id of the DB
+          
+          const token=jwt.sign({
+            _id:user._id
+          },JWT_USER_TOKEN);
+          //apply cookie logic
+  
+          //return the token after creation of token
+          res.json({
+              token:token
+          })
+      }else{
+          res.status(403).json({
+              error:"Incorrect Credentilas"
+          })
+      }
+ 
+      }catch(e){
+    return res.json({
+        error:"server Error"
+    })
+  }   
 })
 
 userRouter.get("/purchases",(req,res)=>{

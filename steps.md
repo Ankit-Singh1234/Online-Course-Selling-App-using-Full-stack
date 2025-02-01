@@ -69,6 +69,13 @@ https://github.com/100xdevs-cohort-3/week-8-course-selling-project/tree/main
 - Display available courses and purchase functionality.
 
 
+  to push the project
+/////////////////
+git remote add origin https://github.com/Ankit-Singh1234/Online-Course-Selling-App-using-Full-stack.git
+git branch -M main
+git push -u origin main
+////////////////
+
 
 
 ______________________________________________________________________________________________________________________________________
