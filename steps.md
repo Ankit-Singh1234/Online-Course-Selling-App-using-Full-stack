@@ -226,3 +226,17 @@ ________________________________________________________________________________
  write for the admin 
 
  
+/////////////////////
+
+
+
+
+
+{
+    "title":"AIML",
+    "description":"Course for Artificial Intelligence and Machine Learning",
+    "price":"100.00",
+    "imageUrl":"https://www.tutorialspoint.com/aiml/images/aiml.jpg",
+    "createrId":"679e667d42adbef8e17467c9"
+
+}

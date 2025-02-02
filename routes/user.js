@@ -43,7 +43,8 @@ const userRouter=Router(); //Router is a function
 
 const {userModel}=require("../db");
 const jwt=require("jsonwebtoken")
-const JWT_USER_TOKEN="_id_token_for_user_signin";
+// const JWT_USER_TOKEN="_id_token_for_user_signin";
+const {JWT_USER_TOKEN}=require("../config")
 
 
 

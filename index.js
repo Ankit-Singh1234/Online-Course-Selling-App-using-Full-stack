@@ -1,4 +1,5 @@
 const express=require("express")
+require("dotenv").config()
 
 
 // const {createUserRoutes}=require("./routes/user")

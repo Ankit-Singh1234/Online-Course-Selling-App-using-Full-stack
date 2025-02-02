@@ -2,8 +2,7 @@ const mongoose=require("mongoose")
 const Schema=mongoose.Schema;
 const ObjectId=mongoose.ObjectId;
 
-mongoose.connect("mongodb+srv://ankitsingh:6m6pPDY!-x3tXTp@cluster0.wqx2c.mongodb.net/online-course-selling-app")
-
+mongoose.connect(process.env.MONGO_URL)
 
 const userSchema=new Schema({
     email:{type:String, unique:true},
