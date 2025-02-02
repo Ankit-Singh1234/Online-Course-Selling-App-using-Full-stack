@@ -41,10 +41,12 @@ const Router=express.Router
 const userRouter=Router(); //Router is a function  
 // we use uerRouter in place of app
 
-const {userModel}=require("../db");
+const {userModel, courseModel, purchasesModel}=require("../db");
 const jwt=require("jsonwebtoken")
 // const JWT_USER_TOKEN="_id_token_for_user_signin";
-const {JWT_USER_TOKEN}=require("../config")
+const {JWT_USER_TOKEN}=require("../config");
+const { userMiddleware } = require("../middleware/user");
+const { courseRouter } = require("./course");
 
 
 
@@ -111,10 +113,54 @@ userRouter.post("/signin",async (req,res)=>{
   }   
 })
 
-userRouter.get("/purchases",(req,res)=>{
-    res.json({
-        message:"purchases endpoints"
-    })
+
+
+userRouter.get("/purchases", userMiddleware,async  (req,res)=>{
+
+    // to see all the courses which is purchased by him
+
+    try{
+        const purchasedCourses=await purchasesModel.find({
+            userId:req.userId
+        })
+
+        if(!purchasedCourses){
+            return res.json({
+                msg:"you haven't purchsed any course!!"
+            })
+        }
+        else{
+
+
+            // const coursesData=await courseModel.find({
+            //     _id:{$in:purchasedCourses.map(x=>x.courseId)}
+            // })
+
+            let purchasedCoursesIds=[];
+            for(let i=0; i<purchasedCourses.length;i++){
+                purchasedCoursesIds.push(purchasedCourses[i].courseId)
+            }
+
+            const coursesData=await courseModel.find({
+                _id:{ $in:purchasedCoursesIds}
+            })
+            
+            return res.json({
+                purchasedCourses,
+                coursesData
+
+
+            })
+        }
+    
+        
+    }catch(e){
+        console.log(e);
+        return res.json({
+            error:"internal server error"
+        })
+    }
+
 })
     
 
